@@ -28,12 +28,16 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: ^3.2.3
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   get: ^4.6.5
+  google_fonts: ^4.0.4
   http: ^0.13.5
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -44,7 +48,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

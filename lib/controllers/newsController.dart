@@ -91,7 +91,7 @@ class NewsController extends GetxController {
 
     baseUrl += country.isEmpty ? 'country=in&' : 'country=$country&';
 
-    baseUrl += category.isEmpty ? 'category=businesss&' : 'category=$category&';
+    baseUrl += category.isEmpty ? 'category=General&' : 'category=$category&';
     baseUrl += 'apiKey=${NewsApiConstants.newsApiKey}';
     if (channel != '') {
       country.value = '';
@@ -105,7 +105,7 @@ class NewsController extends GetxController {
       baseUrl =
           "https://newsapi.org/v2/everything?q=$searchKey&from=2022-07-01&sortBy=popularity&pageSize=10&apiKey=${NewsApiConstants.newsApiKey}";
     }
-    print(baseUrl);
+    print([baseUrl]);
     getAllNewsFromApi(baseUrl);
   }
 
@@ -126,6 +126,7 @@ class NewsController extends GetxController {
         } else {
           if (newsData.articles.isNotEmpty) {
             breakingNews = newsData.articles;
+            if (scrollController.hasClients) scrollController.jumpTo(0.0);
             update();
           }
         }
@@ -152,7 +153,14 @@ class NewsController extends GetxController {
         if (isLoading.value == true) {
           allNews = [...allNews, ...newsData.articles];
           update();
-        } else {}
+        } else {
+          if (newsData.articles.isNotEmpty) {
+            allNews = newsData.articles;
+            // list scrolls back to the start of the screen
+            if (scrollController.hasClients) scrollController.jumpTo(0.0);
+            update();
+          }
+        }
         articleNotFound.value = false;
         isLoading.value = false;
         update();
