@@ -57,7 +57,7 @@ class NewsCard extends StatelessWidget {
           ),
           vertical15,
           Padding(
-            padding: const EdgeInsets.all(Sizes.dimen_16),
+            padding: const EdgeInsets.all(4.0),
             child: Text(
               title,
               maxLines: 2,
@@ -67,10 +67,13 @@ class NewsCard extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           ),
-          Text(
-            desc,
-            maxLines: 2,
-            style: const TextStyle(color: Colors.black54, fontSize: 14),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Text(
+              desc,
+              maxLines: 2,
+              style: const TextStyle(color: Colors.black54, fontSize: 14),
+            ),
           )
         ],
       ),

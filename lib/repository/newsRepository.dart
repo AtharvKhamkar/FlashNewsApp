@@ -50,13 +50,14 @@ class newsRepository {
     String url = '';
     if (query.isEmpty) {
       url =
-          'https://newsapi.org/v2/everything?q=biden&from=2022-07-12&sortBy=popularity&apiKey=c3c8e3a211ed419c8da525aedac6625f';
+          'https://newsapi.org/v2/everything?q=biden&from=2022-07-12&sortBy=popularity&apiKey=431cc141c7ae48f4bd75f2990dbeeed3';
     } else {
       url =
-          "https://newsapi.org/v2/everything?q=$query&from=2022-07-12&sortBy=popularity&apiKey=${NewsApiConstants.newsApiKey}";
+          "https://newsapi.org/v2/everything?q=$query&apiKey=${NewsApiConstants.newsApiKey}";
     }
 
     var response = await http.get(Uri.parse(url));
+    print(url);
     var jsonData = jsonDecode(response.body);
     List<NewsModel> articleModelList = [];
     if (response.statusCode == 200) {

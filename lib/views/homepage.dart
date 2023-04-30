@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flashnewsapp/constants/colorConstants.dart';
 import 'package:flashnewsapp/constants/sizeConstants.dart';
 import 'package:flashnewsapp/constants/uiConstants.dart';
 import 'package:flashnewsapp/controllers/newsController.dart';
@@ -6,6 +7,7 @@ import 'package:flashnewsapp/views/webViewNews.dart';
 import 'package:flashnewsapp/widgets/customAppBar.dart';
 import 'package:flashnewsapp/widgets/newsCard.dart';
 import 'package:flashnewsapp/widgets/sideDrawer.dart';
+import 'package:flashnewsapp/widgets/tiles.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,7 @@ class homePage extends StatelessWidget {
   homePage({super.key});
 
   NewsController newsController = Get.put(NewsController());
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +36,7 @@ class homePage extends StatelessWidget {
                 newsController.getAllNews(reload: true);
                 newsController.getBreakingNews(reload: true);
                 newsController.update();
+                searchController.clear();
               },
               icon: const Icon(Icons.refresh))
         ],
@@ -47,6 +51,36 @@ class homePage extends StatelessWidget {
               const SizedBox(
                 height: Sizes.dimen_10,
               ),
+              Flexible(
+                  child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: Sizes.dimen_8),
+                margin: const EdgeInsets.symmetric(
+                    horizontal: Sizes.dimen_18, vertical: Sizes.dimen_8),
+                decoration: BoxDecoration(
+                    color: Colors.deepPurple[50],
+                    borderRadius: BorderRadius.circular(8)),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextField(
+                        controller: searchController,
+                        textInputAction: TextInputAction.search,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none, hintText: "Search News"),
+                        onChanged: (val) {
+                          newsController.searchNews.value = val;
+                          newsController.update();
+                        },
+                        onSubmitted: (value) async {
+                          newsController.searchNews.value = value;
+                          newsController.getAllNews(
+                              searchKey: newsController.searchNews.value);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )),
               GetBuilder<NewsController>(
                   init: NewsController(),
                   builder: (controller) {
@@ -157,23 +191,76 @@ class homePage extends StatelessWidget {
                     );
                   }),
               vertical10,
-              const Divider(),
-              vertical10,
-              newsController.cName.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: Sizes.dimen_18),
-                      child: Obx(() {
-                        return Text(
-                          newsController.cName.value.toUpperCase(),
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(
-                              fontSize: Sizes.dimen_20,
-                              fontWeight: FontWeight.bold),
-                        );
-                      }),
-                    )
-                  : const SizedBox.shrink(),
-              vertical10,
+              GetBuilder<NewsController>(builder: (controller) {
+                return Container(
+                  margin: EdgeInsets.only(left: Sizes.dimen_16),
+                  height: Get.height * 0.05,
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Sorted by:   ",
+                        style: TextStyle(
+                            color: AppColors.burgundy,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      controller.cName.isNotEmpty
+                          ? Container(
+                              padding: const EdgeInsets.all(4),
+                              margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                              height: Get.height * 0.04,
+                              decoration: BoxDecoration(
+                                  color: AppColors.darkBackground,
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Center(
+                                child: Text(
+                                  "${controller.cName.value.toUpperCase()} ",
+                                  style: const TextStyle(
+                                      color: AppColors.burgundy,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ))
+                          : const SizedBox.shrink(),
+                      controller.category.isNotEmpty
+                          ? Container(
+                              margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                              padding: const EdgeInsets.all(4),
+                              height: Get.height * 0.04,
+                              decoration: BoxDecoration(
+                                  color: AppColors.darkBackground,
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Center(
+                                child: Text(
+                                  "${controller.category.value.toUpperCase()} ",
+                                  style: const TextStyle(
+                                      color: AppColors.burgundy,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ))
+                          : const SizedBox.shrink(),
+                      controller.channel.isNotEmpty
+                          ? Container(
+                              margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                              padding: const EdgeInsets.all(4),
+                              height: Get.height * 0.04,
+                              decoration: BoxDecoration(
+                                  color: AppColors.darkBackground,
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Center(
+                                child: Text(
+                                  "${controller.channel.value.toUpperCase()} ",
+                                  style: const TextStyle(
+                                      color: AppColors.burgundy,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ))
+                          : const SizedBox.shrink()
+                    ],
+                  ),
+                );
+              }),
+              const SizedBox(
+                height: Sizes.dimen_10,
+              ),
               GetBuilder<NewsController>(
                   init: NewsController(),
                   builder: (controller) {

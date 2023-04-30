@@ -103,7 +103,7 @@ class NewsController extends GetxController {
       country.value = '';
       category.value = '';
       baseUrl =
-          "https://newsapi.org/v2/everything?q=$searchKey&from=2022-07-01&sortBy=popularity&pageSize=10&apiKey=${NewsApiConstants.newsApiKey}";
+          "https://newsapi.org/v2/everything?q=$searchKey&pageSize=10&apiKey=${NewsApiConstants.newsApiKey}";
     }
     print([baseUrl]);
     getAllNewsFromApi(baseUrl);
